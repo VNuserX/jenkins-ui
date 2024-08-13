@@ -26,4 +26,6 @@
         menuItems.forEach(item => sidePanel.appendChild(item.closest('li')));
     }
 
-    // Execute when the DOM is f
+    // Execute when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', reorderSidePanel);
+})();
