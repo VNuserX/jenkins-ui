@@ -1,12 +1,17 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Find the "Pipeline Console" menu item
-    const menuItems = document.querySelectorAll('#tasks .task-link');
+(function() {
+    function reorderJobs() {
+        const jobsMenu = document.querySelectorAll('.task')[1].parentNode;
+        const jobs = Array.from(jobsMenu.querySelectorAll('li'));
 
-    menuItems.forEach(item => {
-        const linkTextElement = item.querySelector('.task-link-text');
-        if (linkTextElement && linkTextElement.innerText === 'Pipeline Console') {
-            // Rename it to "Console Pipeline"
-            linkTextElement.innerText = 'Console Pipeline';
-        }
-    });
-});
+        jobs.sort((a, b) => {
+            const nameA = a.textContent.trim().toUpperCase();
+            const nameB = b.textContent.trim().toUpperCase();
+            return nameA.localeCompare(nameB);
+        });
+
+        jobs.forEach(job => jobsMenu.appendChild(job));
+    }
+
+    // Execute when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', reorderJobs);
+})();
