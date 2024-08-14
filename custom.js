@@ -1,31 +1,28 @@
-(function() {
-    function reorderSidePanel() {
-        const sidePanel = document.querySelector('.task'); // Select the side panel
-        if (!sidePanel) return;
-
-        const menuItems = Array.from(sidePanel.querySelectorAll('a.task-link')); // Select all menu items
-
-        // Define your desired order of items by text content (case-insensitive)
-        const order = [
-            'Build Now',
-            'Configure',
-            'Delete Project',
-            // Add other items here in the desired order
-        ];
-
-        // Sort the menu items based on the desired order
-        menuItems.sort((a, b) => {
-            const textA = a.textContent.trim();
-            const textB = b.textContent.trim();
-            const indexA = order.indexOf(textA);
-            const indexB = order.indexOf(textB);
-            return indexA - indexB;
-        });
-
-        // Reorder the items in the DOM
-        menuItems.forEach(item => sidePanel.appendChild(item.closest('li')));
+document.addEventListener('DOMContentLoaded', function() {
+    // Ensure the tasks container exists
+    const tasksContainer = document.querySelector('#tasks');
+    
+    if (!tasksContainer) {
+        console.error('Side panel container not found.');
+        return;
     }
 
-    // Execute when the DOM is fully loaded
-    document.addEventListener('DOMContentLoaded', reorderSidePanel);
-})();
+    // Locate the 'Pipeline Console' task
+    let pipelineConsoleItem = null;
+    const taskLinks = tasksContainer.querySelectorAll('.task');
+
+    taskLinks.forEach(item => {
+        const linkTextElement = item.querySelector('.task-link-text');
+        if (linkTextElement && linkTextElement.textContent.trim() === 'Pipeline Console') {
+            pipelineConsoleItem = item;
+        }
+    });
+
+    if (pipelineConsoleItem) {
+        // Move 'Pipeline Console' to the top of the side panel
+        tasksContainer.insertBefore(pipelineConsoleItem, tasksContainer.firstChild);
+        console.log('Pipeline Console moved to the top.');
+    } else {
+        console.error('Pipeline Console item not found.');
+    }
+});
